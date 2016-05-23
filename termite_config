@@ -1,0 +1,6 @@
+[options]
+font = Meslo LG S 20
+
+[colors]
+foreground = #F8F8F2
+background = #272822

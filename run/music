@@ -1,0 +1,2 @@
+#!/bin/bash
+termite -t "music" -e "ncmpcpp"

@@ -1,2 +1,7 @@
 #!/bin/bash
-cp -R ~/.xinitrc ~/run/ ~/.emacs.d/init.el ~/.Xresources ~/.config/termite/config ~/.bspwmrc ~/.sxhkdrc .
+cp ~/.xinitrc .
+cp -R ~/run .
+cp ~/.emacs.d/init.el .
+cp ~/.config/termite/config termite_config
+cp ~/.bspwmrc ~/.sxhkdrc .
+

@@ -1,0 +1,6 @@
+#!/bin/bash
+#xrandr --dpi 180x180 
+#xrandr --output eDP1 --scale-from 2560x1440 --panning 2560x1440
+xmodmap .Xmodmap
+cp /home/fabian/run/tlp_bat /etc/default/tlp
+termite -e "bash -c 'sudo tlp start'"

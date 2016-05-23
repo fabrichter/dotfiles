@@ -1,0 +1,2 @@
+#!/bin/bash
+termite -t "ncmpcpp" -e "ncmpcpp"
