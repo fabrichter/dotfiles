@@ -1,0 +1,5 @@
+clear Control
+keysym Escape = grave asciitilde
+keycode 110 = Control_L
+keycode 115 = Escape
+add Control = Control_L Control_R
