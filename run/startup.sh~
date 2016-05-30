@@ -5,7 +5,6 @@ xrdb -merge ~/.Xresources &
 xmodmap .Xmodmap &
 xrandr --output eDP1 --left-of DP1 &
 exec /home/fabian/run/monitor &
-#i3-msg "workspace 2"
-#i3-msg "layout tabbed"
-feh --bg-scale wallpaper/escape_velocity.jpg &
+feh --bg-scale wallpaper/planets.jpg &
+compton -b -i 0.5 -f -c &
 emacs &
