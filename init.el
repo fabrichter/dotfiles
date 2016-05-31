@@ -63,12 +63,18 @@
   )
 (use-package color-theme-monokai :config (color-theme-monokai))
 (use-package magit :bind ("C-x g" . magit-status))
-(use-package company :config
-  (global-company-mode) )
-(use-package company-try-hard :config
- (global-set-key (kbd "M-<SPC>") #'company-try-hard)
- (define-key company-active-map (kbd "M-<SPC>") #'company-try-hard))
-    ;(use-packagesmartparens :config (smartparens-global-mode) (smartparens-strict-mode))
+;(use-package company :config
+;  (global-company-mode) )
+;(use-package company-try-hard :config
+; (global-set-key (kbd "M-<SPC>") #'company-try-hard)
+; (define-key company-active-map (kbd "M-<SPC>") #'company-try-hard))
+
+(use-package auto-complete
+  :config
+  (global-auto-complete-mode 1)
+  (ac-config-default))
+(use-package auto-complete-auctex)
+;(use-packagesmartparens :config (smartparens-global-mode) (smartparens-strict-mode))
 (auto-save-mode)
 (setq dired-guess-shell-alist-user '(
 				     ("\\.pdf" "mupdf &")
@@ -79,11 +85,12 @@
 (add-hook 'prog-mode-hook 'evil-surround-mode)
 (use-package org)
 (use-package ox-reveal)
-                                        ;(require 'projectile)
-                                        ;(projectile-global-mode)
-                                        ;(require 'helm-projectile)
-                                        ;(helm-projectile)
-                                        ;(require 'flycheck)
+(use-package flyspell)
+(use-package projectile
+  :config (projectile-global-mode)
+  )
+(use-package helm-projectile
+  :config (helm-projectile-on))
 
 ;; If you edit it by hand, you could mess it up, so be careful.
 ;; Your init file should contain only one such instance.
@@ -94,10 +101,6 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:inherit nil :stipple nil :background "#272822" :foreground "#F8F8F2" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 130 :width normal :foundry "PfEd" :family "Meslo LG S Regular"))))
- '(company-preview ((t (:background "black" :foreground "gold"))))
- '(company-preview-common ((t (:inherit company-preview :foreground "gold"))))
- '(company-preview-search ((t (:inherit company-preview :background "white"))))
- '(company-tooltip ((t (:background "black" :foreground "gold"))))
  '(yalinum-bar-face ((t (:background "gray20" :foreground "gray85" :height 120))))
  '(yalinum-face ((t (:background "black" :foreground "gray70" :height 120)))))
 (custom-set-variables
@@ -106,11 +109,10 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(TeX-save-query nil)
+ '(ac-auto-show-menu 0.5)
+ '(ac-auto-start t)
+ '(ac-dictionary-files (quote ("~/.dict" "~/.emacs.d/dict")))
  '(async-shell-command-buffer (quote rename-buffer))
- '(company-backends
-   (quote
-    (company-bbdb company-nxml company-css company-eclim company-semantic company-clang company-xcode company-cmake company-capf company-files company-dabbrev-code company-gtags company-etags company-keywords company-oddmuse company-dabbrev company-ispell company-latex-commands)))
- '(company-idle-delay 0.2)
  '(display-buffer-alist
    (quote
     ((".*Async Shell Command.*" display-buffer-no-window
