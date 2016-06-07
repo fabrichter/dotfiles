@@ -44,11 +44,6 @@
                                         ; don't know if neccesarry
 (set-frame-parameter (selected-frame) 'alpha '(95 85)) 
 (add-to-list 'default-frame-alist '(alpha 95 85))
-(defun switch-to-previous-buffer ()
-  (interactive)
-  (switch-to-buffer (other-buffer (current-buffer) 1))
-  )
-(global-set-key (kbd "M-o") 'switch-to-previous-buffer)
 (use-package helm
   :config
   (helm-mode 1)
@@ -68,12 +63,16 @@
 ;(use-package company-try-hard :config
 ; (global-set-key (kbd "M-<SPC>") #'company-try-hard)
 ; (define-key company-active-map (kbd "M-<SPC>") #'company-try-hard))
-
 (use-package auto-complete
   :config
   (global-auto-complete-mode 1)
   (ac-config-default))
 (use-package auto-complete-auctex)
+(use-package ac-ispell :config
+  (ac-ispell-setup)
+  (add-hook 'LaTeX-mode-hook 'ac-ispell-ac-setup)
+  (add-hook 'org-mode-hook 'ac-ispell-ac-setup)
+  )
 ;(use-packagesmartparens :config (smartparens-global-mode) (smartparens-strict-mode))
 (auto-save-mode)
 (setq dired-guess-shell-alist-user '(
@@ -92,6 +91,46 @@
 (use-package helm-projectile
   :config (helm-projectile-on))
 
+;;; own functions
+(defun switch-to-previous-buffer ()
+  (interactive)
+  (switch-to-buffer (other-buffer (current-buffer) 1))
+  )
+(global-set-key (kbd "M-o") 'switch-to-previous-buffer)
+(defun start-fish ()
+  (interactive)
+  (async-shell-command "termite -e /bin/fish")
+  )
+(global-set-key (kbd "M-<RET>") 'start-fish)
+
+;;====== Switch to Root =================
+
+(defadvice helm-find-files (after find-file-sudo activate)
+  "Find file as root if necessary."
+  (unless (and buffer-file-name
+               (file-writable-p buffer-file-name))
+    (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))
+
+(defadvice helm-locate (after find-file-sudo activate)
+  "Find file as root if necessary."
+  (unless (and buffer-file-name
+               (file-writable-p buffer-file-name))
+    (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))
+
+(defun sudired ()
+  (interactive)
+  (require 'tramp)
+  (let ((dir (expand-file-name default-directory)))
+    (if (string-match "^/sudo:" dir)
+        (user-error "Already in sudo")
+      (dired (concat "/sudo::" dir)))))
+(define-key dired-mode-map "#" 'sudired)
+
+
+(use-package slime :config
+(setq inferior-lisp-program "/usr/bin/sbcl")
+(add-to-list 'load-path "/usr/share/emacs/site-lisp/slime/")
+(slime-setup '(slime-fancy)))
 ;; If you edit it by hand, you could mess it up, so be careful.
 ;; Your init file should contain only one such instance.
 ;; If there is more than one, they won't work right.
@@ -111,13 +150,13 @@
  '(TeX-save-query nil)
  '(ac-auto-show-menu 0.5)
  '(ac-auto-start t)
- '(ac-dictionary-files (quote ("~/.dict" "~/.emacs.d/dict")))
+ '(ac-dictionary-files (quote ("~/.dict")))
  '(async-shell-command-buffer (quote rename-buffer))
  '(display-buffer-alist
    (quote
     ((".*Async Shell Command.*" display-buffer-no-window
       (nil)))))
- '(explicit-shell-file-name "/bin/zsh")
+ '(explicit-shell-file-name "/bin/fish")
  '(fringe-mode 0 nil (fringe))
  '(initial-buffer-choice (quote eshell))
  '(ispell-complete-word-dict "/home/fabian/.emacs.d/dict")

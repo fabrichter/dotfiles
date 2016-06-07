@@ -1,4 +1,4 @@
 #!/bin/bash
 connmanctl disable wifi
-sleep 5s
+sleep 3s
 connmanctl enable wifi

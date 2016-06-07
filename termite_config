@@ -8,5 +8,5 @@ foreground_bold = #ffffff
 #background = #0f0f0f
 
 # 20% background transparency (requires a compositor)
-background = rgba(0, 0, 0, 0.80)
+background = rgba(20, 20, 20, 0.80)
 
