@@ -1,6 +1,7 @@
 
 (defvar *chicken-burger* ())
 (defun chicken-burger-ify ()
+  "prepare word dominion"
   (interactive)
   (let ((word (thing-at-point 'word t)))           ;
     (if word
@@ -9,6 +10,7 @@
           (message "%s haz become chicken" word)))))
 
 (defvar *dirty-stuff* "/home/fabian/.emacs.d/dirty-stuff")
+(defcustom *dirty-stuff* "" "The file with which all the fun starts")
 
 (defvar *dirty-lines* ())
 
@@ -31,6 +33,7 @@
       )))
 
 (defun show-the-might-of-the-tofu-burger ()
+  "do funny stuff"
   (interactive)
   (set '*rand-numbers* ())
   (set '*dirty-lines* (read-lines *dirty-stuff*))
@@ -39,3 +42,5 @@
           (message "index %d: %s to %s" i (elt *chicken-burger* i) (elt burgers i))
           (beginning-of-buffer)
           (replace-string (elt *chicken-burger* i) (elt burgers i) t nil nil))))
+
+(provide 'obscure-chicken-burger)
