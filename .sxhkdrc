@@ -14,7 +14,9 @@ super + e
 super + f
       	run/appjump.sh chromium
 super + w
-    rofi -auto-select -show window
+	rofi -auto-select -show window
+super + n
+	clerk
 
 # make sxhkd reload its configuration files:
 super + Escape
@@ -42,6 +44,8 @@ super + y
 
 # swap the current node and the biggest node
 super + g
+	bspc node -f next && bspc node -s biggest
+super + shift + g
 	bspc node -s biggest
 
 #
@@ -116,7 +120,7 @@ super + ctrl + shift + space
 
 # set ratio
 super + alt + {1-9}
-    bspc node focused -r 0.{1-9}
+    bspc node -f @parent && bspc node focused -r 0.{1-9} && bspc node older -f
 
 
 # expand a window by moving one of its side outward

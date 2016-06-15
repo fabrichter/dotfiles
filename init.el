@@ -20,7 +20,7 @@
   )
 (use-package yalinum
   :config
-                                        ;(set-face-attribute 'yalinum-face nil :height 110)
+ ; (set-face-attribute 'yalinum-face nil :height 110)
   (add-hook 'prog-mode-hook 'yalinum-mode)
   )
 (setq auto-mode-alist (cons '(".*\\.pl$" . prolog-mode) auto-mode-alist))
@@ -56,8 +56,10 @@
    ("C-x C-l" . helm-locate)
    )
   )
-(use-package color-theme-monokai :config (color-theme-monokai))
+;; themes
+(use-package gruvbox-theme :config (load-theme 'gruvbox t) )
 (use-package magit :bind ("C-x g" . magit-status))
+(use-package javadoc-lookup :config (javadoc-add-roots "/usr/share/doc/java8-openjdk/api") :bind (("C-h j" . javadoc-lookup)))
 ;(use-package company :config
 ;  (global-company-mode) )
 ;(use-package company-try-hard :config
@@ -66,6 +68,7 @@
 (use-package auto-complete
   :config
   (global-auto-complete-mode 1)
+  (add-hook 'prolog-mode-hook #'auto-complete-mode)
   (ac-config-default))
 (use-package auto-complete-auctex)
 (use-package ac-ispell :config
@@ -85,9 +88,7 @@
 (use-package org)
 (use-package ox-reveal)
 (use-package flyspell)
-(use-package projectile
-  :config (projectile-global-mode)
-  )
+(use-package projectile :config (projectile-global-mode))
 (use-package helm-projectile
   :config (helm-projectile-on))
 
@@ -103,30 +104,6 @@
   )
 (global-set-key (kbd "M-<RET>") 'start-fish)
 
-;;====== Switch to Root =================
-
-(defadvice helm-find-files (after find-file-sudo activate)
-  "Find file as root if necessary."
-  (unless (and buffer-file-name
-               (file-writable-p buffer-file-name))
-    (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))
-
-(defadvice helm-locate (after find-file-sudo activate)
-  "Find file as root if necessary."
-  (unless (and buffer-file-name
-               (file-writable-p buffer-file-name))
-    (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))
-
-(defun sudired ()
-  (interactive)
-  (require 'tramp)
-  (let ((dir (expand-file-name default-directory)))
-    (if (string-match "^/sudo:" dir)
-        (user-error "Already in sudo")
-      (dired (concat "/sudo::" dir)))))
-(define-key dired-mode-map "#" 'sudired)
-
-
 (use-package slime :config
 (setq inferior-lisp-program "/usr/bin/sbcl")
 (add-to-list 'load-path "/usr/share/emacs/site-lisp/slime/")
@@ -139,9 +116,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "#272822" :foreground "#F8F8F2" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 130 :width normal :foundry "PfEd" :family "Meslo LG S Regular"))))
- '(yalinum-bar-face ((t (:background "gray20" :foreground "gray85" :height 120))))
- '(yalinum-face ((t (:background "black" :foreground "gray70" :height 120)))))
+ '(default ((t (:inherit nil :stipple nil :background "#282828" :foreground "#fdf4c1" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 143 :width normal :foundry "PfEd" :family "Fantasque Sans Mono"))))
+ '(yalinum-bar-face ((t (:background "gray20" :foreground "gray85" :height 140))))
+ '(yalinum-face ((t (:background "black" :foreground "gray70" :height 140)))))
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -151,6 +128,7 @@
  '(ac-auto-show-menu 0.5)
  '(ac-auto-start t)
  '(ac-dictionary-files (quote ("~/.dict")))
+ '(ac-ispell-requires 7)
  '(async-shell-command-buffer (quote rename-buffer))
  '(display-buffer-alist
    (quote
@@ -158,10 +136,12 @@
       (nil)))))
  '(explicit-shell-file-name "/bin/fish")
  '(fringe-mode 0 nil (fringe))
+ '(helm-external-programs-associations (quote (("mkv" . "mpv &"))))
  '(initial-buffer-choice (quote eshell))
  '(ispell-complete-word-dict "/home/fabian/.emacs.d/dict")
  '(menu-bar-mode nil)
  '(org-html-inline-images nil)
+ '(org-reveal-root "..")
  '(scroll-bar-mode nil)
  '(session-use-package t nil (session))
  '(tool-bar-mode nil))
