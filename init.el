@@ -3,7 +3,6 @@
 (push '("melpa" . "http://melpa.milkbox.net/packages/") package-archives)
 (package-initialize)
 (setq use-package-always-ensure t)
-
 (setq
  backup-by-copying t      ; don't clobber symlinks
  backup-directory-alist
@@ -18,14 +17,15 @@
   :config 
   (powerline-evil-center-color-theme)
   )
-(use-package yalinum
+(use-package linum
   :config
- ; (set-face-attribute 'yalinum-face nil :height 110)
-  (add-hook 'prog-mode-hook 'yalinum-mode)
+  ;(set-face-attribute 'linum nil :height 10)
+  (add-hook 'prog-mode-hook 'linum-mode)
   )
 (setq auto-mode-alist (cons '(".*\\.pl$" . prolog-mode) auto-mode-alist))
 (use-package evil
   :config
+  (add-hook 'text-mode-hook 'evil-local-mode)
   (add-hook 'prog-mode-hook 'evil-local-mode)
   (define-key evil-insert-state-map "\C- " 'evil-local-mode)
   (define-key evil-normal-state-map "\C- " 'evil-local-mode)
@@ -44,6 +44,23 @@
                                         ; don't know if neccesarry
 (set-frame-parameter (selected-frame) 'alpha '(95 85)) 
 (add-to-list 'default-frame-alist '(alpha 95 85))
+(defun zoom-font (size)
+  "Increase font size without breaking things like text-scale-zoom"
+  (interactive "nNew Font size: ")
+  (set-face-attribute 'default nil :height size))
+(defvar zoom-font-step 10)
+(defcustom zoom-font-step 10 "Step for increasing/decreasing default font height")
+(defun zoom-font-increase ()
+  (interactive)
+  (let ((size (face-attribute 'default :height)))
+   (set-face-attribute 'default nil :height (+ size zoom-font-step))))
+(defun zoom-font-decrease ()
+  (interactive)
+  (let ((size (face-attribute 'default :height)))
+   (set-face-attribute 'default nil :height (- size zoom-font-step))))
+(global-set-key (kbd "C-c f z") #'zoom-font)
+(global-set-key (kbd "C-c f +") #'zoom-font-increase)
+(global-set-key (kbd "C-c f -") #'zoom-font-decrease)
 (use-package helm
   :config
   (helm-mode 1)
@@ -54,28 +71,38 @@
    ("C-x b" . helm-buffers-list)
    ("C-x C-b" . helm-buffers-list)
    ("C-x C-l" . helm-locate)
+   ("M-n" . bs-cycle-next)
+   ("M-p" . bs-cycle-previous)
    )
   )
 ;; themes
 (use-package gruvbox-theme :config (load-theme 'gruvbox t) )
-(use-package magit :bind ("C-x g" . magit-status))
+(use-package magit :bind ("C-x g" . magit-status)) 
 (use-package javadoc-lookup :config (javadoc-add-roots "/usr/share/doc/java8-openjdk/api") :bind (("C-h j" . javadoc-lookup)))
 ;(use-package company :config
 ;  (global-company-mode) )
 ;(use-package company-try-hard :config
 ; (global-set-key (kbd "M-<SPC>") #'company-try-hard)
 ; (define-key company-active-map (kbd "M-<SPC>") #'company-try-hard))
+(defun my-ac-ispell-complete ()
+  (interactive)
+  (auto-complete (list ac-source-ispell)))
+(global-set-key (kbd "C-M-i") #'my-ac-ispell-complete)
+(defun enable-my-complete ()
+  (interactive)
+  (local-set-key (kbd "C-M-i") #'my-ac-ispell-complete))
+(add-hook 'text-mode-hook #'enable-my-complete)
+(add-hook 'prog-mode-hook #'enable-my-complete)
+(add-hook 'TeX-mode-hook #'enable-my-complete)
 (use-package auto-complete
   :config
   (global-auto-complete-mode 1)
   (add-hook 'prolog-mode-hook #'auto-complete-mode)
-  (ac-config-default))
+  (ac-config-default) 
+  )
 (use-package auto-complete-auctex)
 (use-package ac-ispell :config
-  (ac-ispell-setup)
-  (add-hook 'LaTeX-mode-hook 'ac-ispell-ac-setup)
-  (add-hook 'org-mode-hook 'ac-ispell-ac-setup)
-  )
+  (ac-ispell-setup))
 ;(use-packagesmartparens :config (smartparens-global-mode) (smartparens-strict-mode))
 (auto-save-mode)
 (setq dired-guess-shell-alist-user '(
@@ -102,7 +129,7 @@
   (interactive)
   (async-shell-command "termite -e /bin/fish")
   )
-(global-set-key (kbd "M-<RET>") 'start-fish)
+(global-set-key (kbd "C-x +") 'start-fish)
 
 (use-package slime :config
 (setq inferior-lisp-program "/usr/bin/sbcl")
@@ -116,9 +143,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "#282828" :foreground "#fdf4c1" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 143 :width normal :foundry "PfEd" :family "Fantasque Sans Mono"))))
- '(yalinum-bar-face ((t (:background "gray20" :foreground "gray85" :height 140))))
- '(yalinum-face ((t (:background "black" :foreground "gray70" :height 140)))))
+ '(default ((t (:inherit nil :stipple nil :background "#282828" :foreground "#fdf4c1" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 143 :width normal :foundry "PfEd" :family "Fantasque Sans Mono")))))
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -144,4 +169,5 @@
  '(org-reveal-root "..")
  '(scroll-bar-mode nil)
  '(session-use-package t nil (session))
- '(tool-bar-mode nil))
+ '(tool-bar-mode nil)
+ '(zoom-font-step 20))

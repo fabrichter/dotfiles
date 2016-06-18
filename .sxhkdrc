@@ -15,8 +15,6 @@ super + f
       	run/appjump.sh chromium
 super + w
 	rofi -auto-select -show window
-super + n
-	clerk
 
 # make sxhkd reload its configuration files:
 super + Escape
