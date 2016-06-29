@@ -1,2 +1,2 @@
 #!/bin/bash
-bash "/home/fabian/run/$1"
+exec "/home/fabian/run/$1"

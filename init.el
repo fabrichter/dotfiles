@@ -3,16 +3,17 @@
 (push '("melpa" . "http://melpa.milkbox.net/packages/") package-archives)
 (package-initialize)
 (setq use-package-always-ensure t)
-(setq
- backup-by-copying t      ; don't clobber symlinks
- backup-directory-alist
- '(("." . "~/.emacs.d/saves"))    ; don't litter my fs tree
- delete-old-versions t
- kept-new-versions 6
- kept-old-versions 2
- version-control t)
-(setq-default indent-tabs-mode nil)
+;(setq
+; backup-by-copying t      ; don't clobber symlinks
+; backup-directory-alist
+;j '(("." . "~/.emacs.d/saves"))    ; don't litter my fs tree
+; delete-old-versions t
+; kept-new-versions 6
+; kept-old-versions 2
+; version-control t)
+;(setq-default indent-tabs-mode nil)
 
+(use-package fontawesome)
 (use-package powerline
   :config 
   (powerline-evil-center-color-theme)
@@ -36,8 +37,7 @@
 (use-package evil-matchit :config (global-evil-matchit-mode 1))
 (use-package evil-easymotion :config (evilem-default-keybindings "SPC"))
 (use-package evil-org)
-(use-package hiwin :config (hiwin-mode 1)
-  )
+(use-package hiwin)
 (use-package session
   :config
   (session-initialize))
@@ -61,9 +61,36 @@
 (global-set-key (kbd "C-c f z") #'zoom-font)
 (global-set-key (kbd "C-c f +") #'zoom-font-increase)
 (global-set-key (kbd "C-c f -") #'zoom-font-decrease)
+
+(defvar external-file-types (list "pdf" "mkv" "mp4" "avi"))
+(defcustom external-file-types (list "pdf" "mkv" "mp4" "avi") "Files to open externally")
+(defun emacs-or-external-viewer (file)
+  (let ( (extensions (mapcar #'(lambda (ext) (concat "^.*\\." ext "$")) external-file-types)) )
+    (find file extensions :test #'(lambda (f regex) (string-match-p regex file) ))
+    )
+  )
+
+(defun sane-open-file (file)
+  (if (emacs-or-external-viewer file)
+      (helm-open-file-externally file)
+    ;(let ( (command (dired-guess-shell-command "Command: " (list file))) )
+    ;  (message command)
+    ;    (if (string-match-p "&" command)
+    ;        (progn
+    ;          (message (concat (replace-regexp-in-string " &" "" command) " " file))
+    ;        (async-shell-command (concat (replace-regexp-in-string " &" "" command) " " file))
+    ;        )
+    ;    (shell-command (concat command " " file))))
+    
+        (helm-find-file-or-marked file)))
+      
+
 (use-package helm
   :config
   (helm-mode 1)
+  (add-hook 'helm-after-initialize-hook #'(lambda ()
+    (helm-add-action-to-source "Execute command on file" #'sane-open-file helm-source-find-files 0)
+    (helm-add-action-to-source "Execute command on file" #'sane-open-file helm-source-locate 0)))
   :bind
   (
    ("C-x C-f" . helm-find-files)
@@ -94,10 +121,14 @@
 (add-hook 'text-mode-hook #'enable-my-complete)
 (add-hook 'prog-mode-hook #'enable-my-complete)
 (add-hook 'TeX-mode-hook #'enable-my-complete)
+(add-hook 'LaTeX-mode-hook #'enable-my-complete)
+(add-hook 'org-mode-hook #'enable-my-complete)
 (use-package auto-complete
+
   :config
-  (global-auto-complete-mode 1)
+  (global-auto-complete-mode 1) 
   (add-hook 'prolog-mode-hook #'auto-complete-mode)
+  (add-hook 'org-mode-hook #'auto-complete-mode)
   (ac-config-default) 
   )
 (use-package auto-complete-auctex)
@@ -108,6 +139,7 @@
 (setq dired-guess-shell-alist-user '(
 				     ("\\.pdf" "mupdf &")
 				     ("\\.mp4" "mpv &")
+				     ("\\.avi" "mpv &")
 				     ("\\.mkv" "mpv &")))
 (use-package yasnippet :config (yas-global-mode 1))
 (use-package rainbow-delimiters :config (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
@@ -143,7 +175,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "#282828" :foreground "#fdf4c1" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 143 :width normal :foundry "PfEd" :family "Fantasque Sans Mono")))))
+ '(default ((t (:inherit nil :stipple nil :background "#282828" :foreground "#fdf4c1" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 143 :width normal :foundry "PfEd" :family "Fantasque Sans Mono"))))
+ '(hiwin-face ((t (:background "gray20")))))
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -152,22 +185,38 @@
  '(TeX-save-query nil)
  '(ac-auto-show-menu 0.5)
  '(ac-auto-start t)
- '(ac-dictionary-files (quote ("~/.dict")))
  '(ac-ispell-requires 7)
  '(async-shell-command-buffer (quote rename-buffer))
+ '(backup-by-copying t)
+ '(backup-directory-alist (quote ((".*" . "~/.emacs.d/saves"))))
+ '(delete-old-versions t)
  '(display-buffer-alist
    (quote
     ((".*Async Shell Command.*" display-buffer-no-window
       (nil)))))
  '(explicit-shell-file-name "/bin/fish")
  '(fringe-mode 0 nil (fringe))
- '(helm-external-programs-associations (quote (("mkv" . "mpv &"))))
+ '(helm-default-external-file-browser "termite -d ")
+ '(helm-external-programs-associations
+   (quote
+    (("avi" . "mpv")
+     ("mp4" . "mpv")
+     ("pdf" . "mupdf")
+     ("mkv" . "mpv"))))
+ '(helm-raise-command nil)
+ '(hiwin-mode t)
+ '(indent-tabs-mode nil)
  '(initial-buffer-choice (quote eshell))
  '(ispell-complete-word-dict "/home/fabian/.emacs.d/dict")
+ '(javadoc-lookup-completing-read-function completing-read-function)
+ '(kept-new-versions 6)
  '(menu-bar-mode nil)
+ '(org-cycle-global-at-bob t)
  '(org-html-inline-images nil)
- '(org-reveal-root "..")
+ '(org-reveal-root ".")
  '(scroll-bar-mode nil)
+ '(sentence-end-double-space nil)
  '(session-use-package t nil (session))
  '(tool-bar-mode nil)
+ '(version-control t)
  '(zoom-font-step 20))

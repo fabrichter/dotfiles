@@ -1,4 +1,4 @@
-#
+G#
 # wm independent hotkeys
 #
 
@@ -8,17 +8,19 @@ super + Return
 
 # program launcher
 super + space
-	rofi -show run
+	rofi -show run -lines 5
 super + e
       	run/appjump.sh emacs
 super + f
       	run/appjump.sh chromium
 super + w
 	rofi -auto-select -show window
-
-# make sxhkd reload its configuration files:
-super + Escape
-	pkill -USR1 -x sxhkd
+super + n
+	run/appjump.sh termite
+super + r
+        rofi -auto-select -show window -filter MuPDF
+super + {s, shift + s}
+        {clementine, run/appjump.sh clementine}
 
 #
 # bspwm hotkeys
@@ -51,8 +53,8 @@ super + shift + g
 #
 
 # set the window state
-super + {t,shift + t,s,v}
-	bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
+super + {t,v,shift + t,v}
+	bspc node -t {tiled,fullscreen,pseudo_tiled,floating}
 
 # set the node flags
 super + ctrl + {x,y,z}
@@ -100,7 +102,8 @@ super + {_,shift + }{1-9,0}
 super + ctrl + {h,j,k,l}
 	bspc node -p {west,south,north,east}
 
-# preselect the ratio
+
+# PRESELECT the ratio
 super + ctrl + {1-9}
 	bspc node -o 0.{1-9}
 
