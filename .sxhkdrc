@@ -19,8 +19,8 @@ super + n
 	run/appjump.sh termite
 super + r
         rofi -auto-select -show window -filter MuPDF
-super + {s, shift + s}
-        {clementine, run/appjump.sh clementine}
+super + s
+        clementine
 
 #
 # bspwm hotkeys
