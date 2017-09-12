@@ -1,0 +1,21 @@
+source "pass show Mail/Mutt/Gmail |"
+
+set folder      = imaps://imap.gmail.com/
+set my_imap_user   = fabianrichter97@gmail.com
+set spoolfile   = +INBOX
+mailboxes       = +INBOX
+set postponed = +[Gmail]/Drafts
+
+unset record
+
+set my_user=fabianrichter97
+
+set realname = 'Fabian Richter'
+set from = fabianrichter97
+set use_from = yes
+
+set smtp_url=smtps://$my_user@smtp.gmail.com
+set ssl_force_tls = yes
+set ssl_starttls = yes
+
+account-hook $folder "set imap_user=$my_imap_user imap_pass=$my_pass"

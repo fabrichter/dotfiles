@@ -1,6 +1,0 @@
-#!/bin/bash
-sudo bluetooth toggle
-sleep 0.2 
-sudo bluetooth toggle
-sleep 1
-bluetoothctl

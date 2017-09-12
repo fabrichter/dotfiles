@@ -1,0 +1,5 @@
+color=#dddddd
+interval=5
+
+[time]
+command=date +%T

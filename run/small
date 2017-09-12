@@ -1,7 +1,0 @@
-#!/bin/bash
-#xrandr --dpi 180x180 
-#xrandr --output eDP1 --scale-from 2560x1440 --panning 2560x1440
-xmodmap .Xmodmap
-feh --bg-scale wallpaper/planets.jpg &
-cp /home/fabian/run/tlp_bat /etc/default/tlp
-sudo tlp start

@@ -1,0 +1,21 @@
+source "pass show Mail/Mutt/UOS |"
+
+set folder      = imaps://imap.uni-osnabrueck.de/
+set my_imap_user   = fabrichter@uni-osnabrueck.de
+set spoolfile   = +INBOX
+mailboxes       = +INBOX
+set postponed = +INBOX/Drafts
+
+unset record
+
+set my_user=fabrichter
+
+set realname = 'Fabian Richter'
+set from = fabrichter
+set use_from = yes
+
+set smtp_url=smtps://$my_user@smtp.uni-osnabrueck.de
+set ssl_force_tls = yes
+set ssl_starttls = yes
+
+account-hook $folder "set imap_user=$my_imap_user imap_pass=$my_pass"

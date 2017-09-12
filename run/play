@@ -1,5 +1,0 @@
-#!/bin/bash
-while true
-do
-mplayer "/home/fabian/music/`ls -1 /home/fabian/music/ | shuf -n 1`"
-done

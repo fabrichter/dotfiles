@@ -1,4 +1,0 @@
-#!/bin/bash
-i3status &
-sleep 0.1
-killall i3status

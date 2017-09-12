@@ -1,0 +1,321 @@
+# Default config for sway
+#
+# Copy this to ~/.config/sway/config and edit it to your liking.
+#
+# Read `man 5 sway` for a complete reference.
+
+### Variables
+#
+# Logo key. Use Mod1 for Alt.
+set $mod Mod4
+# Home row direction keys, like vim
+set $left h
+set $down j
+set $up k
+set $right l
+# Your preferred terminal emulator
+set $term ~/Applications/alacritty
+# Your preferred application launcher
+set $menu i3-dmenu-desktop
+
+
+focus_follows_mouse yes
+font "pango:Space Mono for Powerline 10"
+new_window pixel 2
+for_window [class="^.*"] border pixel 2
+#hide_edge_borders smart
+gaps inner 15 
+gaps outer 0
+smart_borders on
+client.unfocused #323232 #323232 #dddddd
+client.focused #dddddd #dddddd #323232
+### Output configuration
+#
+# Default wallpaper (more resolutions are available in /usr/share/sway/)
+#
+# Example configuration:
+#
+#   output HDMI-A-1 resolution 1920x1080 position 1920,0
+#
+# You can get the names of your outputs by running: swaymsg -t get_outputs
+
+### Input configuration
+#
+# Example configuration:
+#
+#   input "2:14:SynPS/2_Synaptics_TouchPad" {
+#       dwt enabled
+#       tap enabled
+#       natural_scroll enabled
+#       middle_emulation enabled
+#   }
+#
+# You can get the names of your inputs by running: swaymsg -t get_inputs
+# Read `man 5 sway-input` for more information about this section.
+
+### Key bindings
+#
+# Basics:
+#
+    # start a terminal
+    bindsym $mod+Return exec $term --title "terminal"
+
+    # kill focused window
+    bindsym $mod+q kill
+
+    # start your launcher
+    bindsym $mod+d exec $menu
+    bindsym $mod+x exec passmenu
+
+    # Drag floating windows by holding down $mod and left mouse button.
+    # Resize them with right mouse button + $mod.
+    # Despite the name, also works for non-floating windows.
+    # Change normal to inverse to use left mouse button for resizing and right
+    # mouse button for dragging.
+    floating_modifier $mod
+
+    # reload the configuration file
+    bindsym $mod+Shift+c reload
+    bindsym $mod+Shift+r restart
+
+#
+# Moving around
+#
+    # Move your focus around
+    bindsym $mod+$left focus left
+    bindsym $mod+$down focus down
+    bindsym $mod+$up focus up
+    bindsym $mod+$right focus right
+    # or use $mod+[up|down|left|right]
+    bindsym $mod+Left focus left
+    bindsym $mod+Down focus down
+    bindsym $mod+Up focus up
+    bindsym $mod+Right focus right
+
+    # _move_ the focused window with the same, but add Shift
+    bindsym $mod+Shift+$left move left
+    bindsym $mod+Shift+$down move down
+    bindsym $mod+Shift+$up move up
+    bindsym $mod+Shift+$right move right
+    # ditto, with arrow keys
+    bindsym $mod+Shift+Left move left
+    bindsym $mod+Shift+Down move down
+    bindsym $mod+Shift+Up move up
+    bindsym $mod+Shift+Right move right
+#
+# Workspaces:
+#
+    # switch to workspace
+    bindsym $mod+1 workspace "11:1"
+    bindsym $mod+2 workspace "12:2"
+    bindsym $mod+3 workspace "13:3"
+    bindsym $mod+4 workspace "14:4"
+    bindsym $mod+5 workspace "15:5"
+    bindsym $mod+6 workspace "16:6"
+    bindsym $mod+7 workspace "17:7"
+    bindsym $mod+8 workspace "18:8"
+    bindsym $mod+9 workspace "19:9"
+    bindsym $mod+0 workspace "20:10"
+    # move focused container to workspace
+    bindsym $mod+Shift+1 move container to workspace "11:1"
+    bindsym $mod+Shift+2 move container to workspace "12:2"
+    bindsym $mod+Shift+3 move container to workspace "13:3"
+    bindsym $mod+Shift+4 move container to workspace "14:4"
+    bindsym $mod+Shift+5 move container to workspace "15:5"
+    bindsym $mod+Shift+6 move container to workspace "16:6"
+    bindsym $mod+Shift+7 move container to workspace "17:7"
+    bindsym $mod+Shift+8 move container to workspace "18:8"
+    bindsym $mod+Shift+9 move container to workspace "19:9"
+    bindsym $mod+Shift+0 move container to workspace "20:10"
+    # Note: workspaces can have any name you want, not just numbers.
+    # We just use 1-10 as the default.
+#
+# Layout stuff:
+#
+    # You can "split" the current object of your focus with
+    # $mod+b or $mod+v, for horizontal and vertical splits
+    # respectively.
+	#layout auto left
+	#bindsym $mod+m layout auto left
+	#bindsym $mod+Shift+m layout auto next
+    bindsym $mod+s splith
+    bindsym $mod+v splitv
+
+    # Switch the current container between different layout styles
+    bindsym $mod+i layout stacking
+    bindsym $mod+t layout tabbed
+    bindsym $mod+o layout toggle split
+
+    # Make the current focus fullscreen
+    bindsym $mod+u fullscreen
+	bindsym $mod+b bar mode toggle
+
+    # Toggle the current focus between tiling and floating mode
+    bindsym $mod+Shift+space floating toggle
+
+    # Swap focus between the tiling area and the floating area
+    bindsym $mod+space focus mode_toggle
+
+    # move focus to the parent container
+    bindsym $mod+a focus parent
+	bindsym $mod+c focus child
+	bindsym $mod+n fullscreen disable; focus right
+	bindsym $mod+p fullscreen disable; focus left
+	bindsym $mod+Shift+n fullscreen disable; focus right; fullscreen enable
+	bindsym $mod+Shift+p fullscreen disable; focus left; fullscreen enable
+	bindsym $mod+Tab workspace next
+	bindsym $mod+Shift+Tab workspace prev
+#
+# Scratchpad:
+#
+    # Sway has a "scratchpad", which is a bag of holding for windows.
+    # You can send windows there and get them back later.
+
+    # Move the currently focused window to the scratchpad
+    bindsym $mod+Shift+y move scratchpad
+
+    # Show the next scratchpad window or hide the focused scratchpad window.
+    # If there are multiple scratchpad windows, this command cycles through them.
+    bindsym $mod+y scratchpad show
+#
+# Resizing containers:
+#
+mode "resize" {
+    # left will shrink the containers width
+    # right will grow the containers width
+    # up will shrink the containers height
+    # down will grow the containers height
+    bindsym $left resize shrink width 10 px or 10 ppt
+    bindsym $down resize grow height 10 px or 10 ppt
+    bindsym $up resize shrink height 10 px or 10 ppt
+    bindsym $right resize grow width 10 px or 10 ppt
+
+    # ditto, with arrow keys
+    bindsym Left resize shrink width 10 px or 10 ppt
+    bindsym Down resize grow height 10 px or 10 ppt
+    bindsym Up resize shrink height 10 px or 10 ppt
+    bindsym Right resize grow width 10 px or 10 ppt
+
+    # return to default mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"
+
+mode "launch" {
+	bindsym e exec $term --title "neovim" --command nvim; mode "default"
+	bindsym m exec $term --title "mutt" --command mutt; mode "default"
+	bindsym t exec $term --title "alacritty" --command zsh; mode "default"
+	bindsym l exec $term --title "lynx" --command lynx; mode "default"
+	bindsym f exec qutebrowser; mode "default"
+	bindsym d exec zeal; mode "default"
+	bindsym r exec zotero; mode "default"
+	bindsym Return mode "default"
+	bindsym Escape mode "default"
+}
+bindsym $mod+Shift+semicolon mode "launch"
+bindsym $mod+Shift+g mode "launch"
+bindsym $mod+backslash mode "launch"
+
+set $browser "1:"
+set $code "2:"
+set $terminal "3:"
+set $mail "4:"
+
+mode "go" {
+	bindsym m [title="mutt"] focus; mode "default"
+	bindsym t [title="alacritty"] focus; mode "default"
+	bindsym l [title="lynx"] focus; mode "default"
+	bindsym f [title="qutebrowser"] focus; mode "default"
+	bindsym e [title="neovim"] focus; mode "default"
+
+	bindsym Return mode "default"
+	bindsym Escape mode "default"
+}
+
+bindsym $mod+g mode "go"
+bindsym $mod+semicolon mode "go"
+
+mode "workspace" {
+	bindsym e workspace $code; mode "default"
+	bindsym f workspace $browser; mode "default"
+	bindsym t workspace $terminal; mode "default"
+	bindsym m workspace $mail; mode "default"
+	bindsym shift+e move container to workspace $code; mode "default"
+	bindsym shift+f move container to workspace $browser; mode "default"
+	bindsym shift+t move container to workspace $terminal; mode "default"
+	bindsym shift+m move container to workspace $mail; mode "default"
+
+    # switch to workspace
+    bindsym 1 workspace "11:1"; mode "default"
+    bindsym 2 workspace "12:2"; mode "default"
+    bindsym 3 workspace "13:3"; mode "default"
+    bindsym 4 workspace "14:4"; mode "default"
+    bindsym 5 workspace "15:5"; mode "default"
+    bindsym 6 workspace "16:6"; mode "default"
+    bindsym 7 workspace "17:7"; mode "default"
+    bindsym 8 workspace "18:8"; mode "default"
+    bindsym 9 workspace "19:9"; mode "default"
+    bindsym 0 workspace "20:10"; mode "default"
+    # move focused container to workspace; mode "default"
+    bindsym Shift+1 move container to workspace "11:1"; mode "default"
+    bindsym Shift+2 move container to workspace "12:2"; mode "default"
+    bindsym Shift+3 move container to workspace "13:3"; mode "default"
+    bindsym Shift+4 move container to workspace "14:4"; mode "default"
+    bindsym Shift+5 move container to workspace "15:5"; mode "default"
+    bindsym Shift+6 move container to workspace "16:6"; mode "default"
+    bindsym Shift+7 move container to workspace "17:7"; mode "default"
+    bindsym Shift+8 move container to workspace "18:8"; mode "default"
+    bindsym Shift+9 move container to workspace "19:9"; mode "default"
+    bindsym Shift+0 move container to workspace "20:10"; mode "default"
+
+	bindsym Return mode "default"
+	bindsym Escape mode "default"
+}
+bindsym $mod+w mode "workspace"
+
+#set $movie "31:"
+#set $music "32:"
+#set $torrent "33:" 
+#set $sync "35:" 
+#set $debugger "36:"
+#set $docs "37:"
+#set $text "38:"
+
+assign [title="neovim"] $code
+assign [title="mutt"] $mail
+assign [title="alacritty"] $terminal
+assign [title="qutebrowser"] $browser
+
+mode "power" {
+	bindsym l exec i3lock -i "~/wallpaper.png"; mode "default"
+	bindsym p exec poweroff
+	bindsym r exec reboot
+    bindsym e exit
+	bindsym w mode "default"; exec $term --command "nmtui"
+
+	bindsym Return mode "default"
+	bindsym Escape mode "default"
+}
+bindsym $mod+Shift+equal mode "power"
+exec_always feh --bg-fill "~/wallpaper.png"
+
+#
+# Status Bar:
+#
+# Read `man 5 sway-bar` for more information about this section.
+bar {
+	status_command i3blocks
+	mode hide
+	position top
+	strip_workspace_numbers yes
+	font "pango: Space Mono for Powerline 10"
+	height 20
+	colors {
+		background #323232
+		inactive_workspace #323232 #323232 #5c5c5c
+		active_workspace #aaaaaa #aaaaaa #323232
+		focused_workspace #dddddd #dddddd #000000
+		statusline #999999
+	}
+}
