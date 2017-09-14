@@ -11,10 +11,10 @@ unset record
 set my_user=fabianrichter97
 
 set realname = 'Fabian Richter'
-set from = fabianrichter97
+set from = fabianrichter97@gmail.com
 set use_from = yes
 
-set smtp_url=smtps://$my_user@smtp.gmail.com
+set smtp_url=smtps://$my_user:$my_pass@smtp.gmail.com
 set ssl_force_tls = yes
 set ssl_starttls = yes
 

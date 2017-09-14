@@ -21,8 +21,8 @@ set $menu i3-dmenu-desktop
 
 focus_follows_mouse yes
 font "pango:Space Mono for Powerline 10"
-new_window pixel 2
-for_window [class="^.*"] border pixel 2
+new_window pixel 3
+for_window [class="^.*"] border pixel 3
 #hide_edge_borders smart
 gaps inner 15 
 gaps outer 0
@@ -207,9 +207,9 @@ mode "launch" {
 	bindsym m exec $term --title "mutt" --command mutt; mode "default"
 	bindsym t exec $term --title "alacritty" --command zsh; mode "default"
 	bindsym l exec $term --title "lynx" --command lynx; mode "default"
-	bindsym f exec qutebrowser; mode "default"
+	bindsym f exec qutebrowser --backend webengine; mode "default"
 	bindsym d exec zeal; mode "default"
-	bindsym r exec zotero; mode "default"
+	bindsym r exec ~/Applications/zotero; mode "default"
 	bindsym Return mode "default"
 	bindsym Escape mode "default"
 }
@@ -221,6 +221,7 @@ set $browser "1:"
 set $code "2:"
 set $terminal "3:"
 set $mail "4:"
+set $text "5:"
 
 mode "go" {
 	bindsym m [title="mutt"] focus; mode "default"
@@ -228,6 +229,7 @@ mode "go" {
 	bindsym l [title="lynx"] focus; mode "default"
 	bindsym f [title="qutebrowser"] focus; mode "default"
 	bindsym e [title="neovim"] focus; mode "default"
+	bindsym r [title="Zotero"] focus; mode "default"
 
 	bindsym Return mode "default"
 	bindsym Escape mode "default"
@@ -241,10 +243,12 @@ mode "workspace" {
 	bindsym f workspace $browser; mode "default"
 	bindsym t workspace $terminal; mode "default"
 	bindsym m workspace $mail; mode "default"
+	bindsym r workspace $text; mode "default"
 	bindsym shift+e move container to workspace $code; mode "default"
 	bindsym shift+f move container to workspace $browser; mode "default"
 	bindsym shift+t move container to workspace $terminal; mode "default"
 	bindsym shift+m move container to workspace $mail; mode "default"
+	bindsym shift+r move container to workspace $text; mode "default"
 
     # switch to workspace
     bindsym 1 workspace "11:1"; mode "default"
@@ -280,15 +284,15 @@ bindsym $mod+w mode "workspace"
 #set $sync "35:" 
 #set $debugger "36:"
 #set $docs "37:"
-#set $text "38:"
 
 assign [title="neovim"] $code
 assign [title="mutt"] $mail
 assign [title="alacritty"] $terminal
 assign [title="qutebrowser"] $browser
+assign [title="zotero"] $text
 
 mode "power" {
-	bindsym l exec i3lock -i "~/wallpaper.png"; mode "default"
+	bindsym l exec i3lock -i "$HOME/wallpaper.png"; mode "default"
 	bindsym p exec poweroff
 	bindsym r exec reboot
     bindsym e exit
@@ -298,7 +302,7 @@ mode "power" {
 	bindsym Escape mode "default"
 }
 bindsym $mod+Shift+equal mode "power"
-exec_always feh --bg-fill "~/wallpaper.png"
+exec feh --bg-fill "$HOME/wallpaper.png"
 
 #
 # Status Bar:

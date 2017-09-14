@@ -29,6 +29,7 @@ Plug 'xolox/vim-session'
 
 " IDE stuff
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+"Plug 'roxma/nvim-completion-manager'
 "Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
 Plug 'majutsushi/tagbar'
 Plug 'neomake/neomake'
@@ -167,10 +168,13 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 let g:gitgutter_map_keys = 0
 "autocmd BufWritePost * Neomake
 
-autocmd FileType java setlocal omnifunc=javacomplete#Complete
+"autocmd FileType java setlocal omnifunc=javacomplete#Complete
 autocmd FileType java noremap <leader>C :Neomake! gradle<CR>
-autocmd FileType pandoc noremap <leader>C :Pandoc! pdf<CR>
-autocmd FileType pandoc noremap <leader>C :Pandoc! pdf<CR>
+autocmd FileType pandoc noremap <leader>C :Pandoc pdf<CR>
+
+let g:pandoc#biblio#use_bibtool=1
+"let g:deoplete#omni#functions = {}
+"let g:deoplete#omni#functions.pandoc = ''
 
 let g:codi#interpreters = {
 	\ 'python': {

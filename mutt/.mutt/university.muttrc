@@ -11,10 +11,10 @@ unset record
 set my_user=fabrichter
 
 set realname = 'Fabian Richter'
-set from = fabrichter
+set from = fabrichter@uni-osnabrueck.de
 set use_from = yes
 
-set smtp_url=smtps://$my_user@smtp.uni-osnabrueck.de
+set smtp_url=smtps://$my_user:$my_pass@smtp-auth.uni-osnabrueck.de
 set ssl_force_tls = yes
 set ssl_starttls = yes
 

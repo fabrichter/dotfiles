@@ -2,9 +2,9 @@
 sudo dnf  copr enable -y wyvie/i3blocks
 sudo dnf copr enable -y yaroslav/i3desktop
 sudo dnf copr enable -y flatcapp/neomutt
-sudo dnf copr enable -y dgoerger/yale-zoo
-sudo dnf install -y stow i3blocks passmenu i3lock dtach sxiv feh dmenu i3-gaps qutebrowser NetworkManager-tui pass lightdm sway neomutt fasd pandoc-citeproc texlive pandoc mupdf astyle zsh qutebrowser uncrustify tidyp neovim anki duplicity htop aspell-en darktable mpv youtube-dl sway the_silver_searcher zeal zotero
+sudo dnf install -y stow i3blocks passmenu i3lock dtach sxiv feh dmenu i3-gaps python3-qt5-webengine NetworkManager-tui pass lightdm sway neomutt fasd pandoc-citeproc texlive pandoc mupdf astyle zsh qutebrowser uncrustify tidyp neovim anki duplicity htop aspell-en darktable mpv youtube-dl sway the_silver_searcher zeal zotero
 pip install --user http-prompt
 git clone git@github.com:jwilm/alacritty.git
 git clone git@github.com:junnegunn/fzf.git
 git clone git@github.com:powerline/fonts.git
+firefox https://www.zotero.org/download
