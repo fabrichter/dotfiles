@@ -1,16 +1,86 @@
 color=#dddddd
 interval=5
+separator=false
+separator_block_width=5
 
-[wifi]
-command=nmcli con show --active | fgrep wireless | cut -f1 -d\ 
+#[output]
+#command=$HOME/scripts/monitor.sh
+#interval=60
+#signal=4
 
-[battery-percentage]
-command=acpi -b | cut -f2 -d,
+#[updates]
+#command=$HOME/scripts/updates.sh
+#interval=60
+#signal=3
+#urgent=true
 
-[battery-status]
-command=acpi -b | tail -c +12 | cut -f1 -d,
+#[window]
+#command=xtitle -s
+#interval=persist
+#separator=true
+#separator_block_width=45
 
+[updates]
+label=  
+command=dnf check-update | tail -n +3 | wc -l
+interval=3600
+
+[load]
+label=  
+command=uptime | cut -f3- -d, | cut -f2 -d: | sed "s/, / /g" | xargs
+interval=10
+
+[memory]
+label=  
+command=echo `free | head -n +2 | tail -1 | awk '{ print $3 / $2 * 100 }' | cut -f1 -d.`%
+interval=10
+
+[layout]
+label=   
+command=setxkbmap -query | tail -n +3 | cut -f2 -d: | xargs
+interval=10
+
+[volume]
+label=   
+command=pactl list sinks | fgrep Volume | head -n 1 | cut -f2 -d/ | xargs
+interval=10
+
+[brightness]
+label=   
+command= xbacklight -get | xargs
+interval=10
+
+[temperature]
+label=   
+command=echo `acpi -t | cut -d' '  -f4`°C | xargs
+interval=15
+
+[wireless]
+label=   
+command=nmcli con show --active | fgrep wireless | cut -f1 -d\ | xargs
+interval=10
+
+[VPN]
+label=  
+command=nmcli --fields name,type --terse con show --active | fgrep vpn | cut -d: -f1
+interval=30
+
+[battery]
+label=  
+command=echo `acpi -b | cut -f2 -d,` `acpi -b | tail -c +12 | cut -f1 -d,` | xargs
+interval=10
+
+[space_root]
+label=   
+command=btrfs filesystem df / -h | head -n 1 | awk '{print $3 }' | cut -f2 -d= | sed 's/,//' | xargs
+interval=60
+
+[date]
+label=   
+command=date --rfc-3339=seconds | cut -f1 -d\ | xargs
+interval=60
 
 [time]
-command=date --rfc-3339=seconds
-
+label=   
+command=date --rfc-3339=seconds | cut -f2 -d\ | xargs
+interval=1
