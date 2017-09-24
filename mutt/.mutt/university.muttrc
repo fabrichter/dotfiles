@@ -5,8 +5,7 @@ set my_imap_user   = fabrichter@uni-osnabrueck.de
 set spoolfile   = +INBOX
 mailboxes       = +INBOX
 set postponed = +INBOX/Drafts
-
-unset record
+set record = +INBOX/Sent
 
 set my_user=fabrichter
 
@@ -14,7 +13,7 @@ set realname = 'Fabian Richter'
 set from = fabrichter@uni-osnabrueck.de
 set use_from = yes
 
-set smtp_url=smtps://$my_user:$my_pass@smtp-auth.uni-osnabrueck.de
+set smtp_url=smtp://$my_user:$my_pass@smtp-auth.uni-osnabrueck.de:587
 set ssl_force_tls = yes
 set ssl_starttls = yes
 

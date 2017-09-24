@@ -43,7 +43,8 @@ Plug 'metakirby5/codi.vim'
 Plug 'ludovicchabant/vim-gutentags'
 "Plug 'HiPhish/repl.nvim'
 "Plug 'janko-m/vim-test'
-Plug 'vimwiki/vimwiki'
+"Plug 'vimwiki/vimwiki'
+Plug 'farseer90718/vim-taskwarrior'
 
 " Language-specific
 Plug 'artur-shaik/vim-javacomplete2'
@@ -89,7 +90,7 @@ set autoread
 let g:airline_powerline_fonts = 1
 let mapleader = ','
 " fzf goodness
-noremap <leader>f :Files ~<CR>
+noremap <leader>f :Files<CR>
 noremap <leader>p :GFiles<CR>
 noremap <leader>b :Buffers<CR>
 noremap <leader>l :Lines<space>
@@ -108,10 +109,10 @@ noremap <leader>D :NERDTreeToggle<CR>
 noremap <leader>g :Gstatus<CR>
 noremap <leader>u :GundoToggle<CR>
 noremap <leader>o :TagbarToggle<CR>
-noremap ,w :update<CR>
+noremap <leader>w :update<CR>
 
-noremap <leader>zo :OpenSession<CR>
-noremap <leader>zO :OpenSession<space>
+noremap <leader>zo :OpenSession<space>
+noremap <leader>zO :OpenSession<CR>
 noremap <leader>zc :CloseSession<CR>
 noremap <leader>zs :SaveSession<CR>
 noremap <leader>zz :CloseSession<CR> :OpenSession<CR>
@@ -123,6 +124,7 @@ endfunction
 noremap <leader>F :call Focus()<CR>
 
 nmap K <Plug>(devdocs-under-cursor)
+vmap K <Plug>(devdocs-under-cursor)
 
 " moving around, jump edition
 map <space> <Plug>(easymotion-prefix)

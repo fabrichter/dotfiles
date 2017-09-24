@@ -1,5 +1,16 @@
 color=#dddddd
 interval=5
 
+[wifi]
+command=nmcli con show --active | fgrep wireless | cut -f1 -d\ 
+
+[battery-percentage]
+command=acpi -b | cut -f2 -d,
+
+[battery-status]
+command=acpi -b | tail -c +12 | cut -f1 -d,
+
+
 [time]
-command=date +%T
+command=date --rfc-3339=seconds
+

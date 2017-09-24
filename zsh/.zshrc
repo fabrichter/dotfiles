@@ -1,5 +1,5 @@
 # If you come from bash you might have to change your $PATH.
-export PATH=$HOME/.local/bin:$HOME/Applications:$PATH
+export PATH=$HOME/.local/bin:$HOME/Applications/:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH=/home/fabrichter/.oh-my-zsh
@@ -26,7 +26,7 @@ ZSH_THEME="agnoster"
 # DISABLE_LS_COLORS="true"
 
 # Uncomment the following line to disable auto-setting terminal title.
-DISABLE_AUTO_TITLE="true"
+DISABLE_AUTO_TITLE="false"
 
 # Uncomment the following line to enable command auto-correction.
 # ENABLE_CORRECTION="true"

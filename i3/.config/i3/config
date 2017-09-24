@@ -17,10 +17,11 @@ set $right l
 set $term ~/Applications/alacritty
 # Your preferred application launcher
 set $menu i3-dmenu-desktop
+set $run dmenu_run
 
 
 focus_follows_mouse yes
-font "pango:Space Mono for Powerline 10"
+font "pango:Liberation Mono 10"
 new_window pixel 3
 for_window [class="^.*"] border pixel 3
 #hide_edge_borders smart
@@ -58,14 +59,15 @@ client.focused #dddddd #dddddd #323232
 # Basics:
 #
     # start a terminal
-    bindsym $mod+Return exec $term --title "terminal"
+    bindsym $mod+Return exec --no-startup-id $term --title "terminal"
 
     # kill focused window
     bindsym $mod+q kill
 
     # start your launcher
-    bindsym $mod+d exec $menu
-    bindsym $mod+x exec passmenu
+    bindsym $mod+d exec --no-startup-id $menu
+    bindsym $mod+shift+d exec --no-startup-id $run
+    bindsym $mod+x exec --no-startup-id passmenu
 
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
@@ -203,13 +205,13 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 mode "launch" {
-	bindsym e exec $term --title "neovim" --command nvim; mode "default"
-	bindsym m exec $term --title "mutt" --command mutt; mode "default"
-	bindsym t exec $term --title "alacritty" --command zsh; mode "default"
-	bindsym l exec $term --title "lynx" --command lynx; mode "default"
-	bindsym f exec qutebrowser --backend webengine; mode "default"
-	bindsym d exec zeal; mode "default"
-	bindsym r exec ~/Applications/zotero; mode "default"
+	bindsym e exec --no-startup-id $term --title "neovim" --command nvim; mode "default"
+	bindsym m exec --no-startup-id $term --title "mutt" --command mutt; mode "default"
+	bindsym t exec --no-startup-id $term --title "alacritty" --command zsh; mode "default"
+	bindsym l exec --no-startup-id $term --title "lynx" --command lynx; mode "default"
+	bindsym f exec --no-startup-id ~/Applications/firefox/firefox; mode "default"
+	bindsym d exec --no-startup-id zeal; mode "default"
+	bindsym r exec --no-startup-id ~/Applications/zotero; mode "default"
 	bindsym Return mode "default"
 	bindsym Escape mode "default"
 }
@@ -227,7 +229,7 @@ mode "go" {
 	bindsym m [title="mutt"] focus; mode "default"
 	bindsym t [title="alacritty"] focus; mode "default"
 	bindsym l [title="lynx"] focus; mode "default"
-	bindsym f [title="qutebrowser"] focus; mode "default"
+	bindsym f [class="Firefox"] focus; mode "default"
 	bindsym e [title="neovim"] focus; mode "default"
 	bindsym r [title="Zotero"] focus; mode "default"
 
@@ -288,21 +290,21 @@ bindsym $mod+w mode "workspace"
 assign [title="neovim"] $code
 assign [title="mutt"] $mail
 assign [title="alacritty"] $terminal
-assign [title="qutebrowser"] $browser
+assign [class="Firefox"] $browser
 assign [title="zotero"] $text
 
 mode "power" {
-	bindsym l exec i3lock -i "$HOME/wallpaper.png"; mode "default"
-	bindsym p exec poweroff
-	bindsym r exec reboot
+	bindsym l exec --no-startup-id i3lock -i "$HOME/wallpaper.png"; mode "default"
+	bindsym p exec --no-startup-id poweroff
+	bindsym r exec --no-startup-id reboot
     bindsym e exit
-	bindsym w mode "default"; exec $term --command "nmtui"
+	bindsym w mode "default"; exec --no-startup-id $term --command "nmtui"
 
 	bindsym Return mode "default"
 	bindsym Escape mode "default"
 }
 bindsym $mod+Shift+equal mode "power"
-exec feh --bg-fill "$HOME/wallpaper.png"
+exec --no-startup-id "$HOME/dotfiles/wallpaper.sh"
 
 #
 # Status Bar:
@@ -313,7 +315,7 @@ bar {
 	mode hide
 	position top
 	strip_workspace_numbers yes
-	font "pango: Space Mono for Powerline 10"
+	font "pango: Liberation Mono 10"
 	height 20
 	colors {
 		background #323232
